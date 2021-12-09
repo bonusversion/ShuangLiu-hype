@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  /* animation: example 3s linear infinite alternate; */
+}
+
+ul {
+  list-style-type: none;
+}
+li {
+  list-style-type: none;
+}
+
+@keyframes example {
+  0% {
+    background-color: rgb(246, 242, 212);
+  }
+
+  100% {
+    background-color: rgb(149, 209, 204);
+  }
+}
+
+div {
+  box-sizing: border-box;
+}
+
+input {
+  outline: none;
+}
+
+.sign-sheet {
+  position: relative;
+  left: 50%;
+  width: 500px;
+  height: 350px;
+  margin: 100px auto;
+}
+
+.sign_alert {
+  margin-top: 0px;
+  color: red;
+  font-size: 12px;
+}
+
+.hidden {
+  opacity: 0;
+}
