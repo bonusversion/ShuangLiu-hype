@@ -1,7 +1,7 @@
 <aside class="side_bar">
   <!-- <h1 class="side_bar_title">学习平台</h1> -->
   <div class="user_card">
-    <div class="user_logo">倩茹</div>
+    <div class="user_logo"><%= user %></div>
     <!-- <div class="login_time">2021年12月09日 12:12</div> -->
     <!-- <div class="timer">已登录：23分15秒</div> -->
     <!-- <i class="fas fa-cog setting_icon"></i> -->
@@ -18,18 +18,16 @@
       
     </li>
     <li class="nav_icon_row">
-      <i class="fas fa-tasks nav_item_icon"></i>
-      <div class="nav_item_tip hidden">事件跟踪</div>
+      <a href="/affair"><i class="fas fa-tasks nav_item_icon"></i><div class="nav_item_tip hidden">事件跟踪</div></a>
       
     </div>
     <li class="nav_icon_row">
-      <i class="far fa-file-archive nav_item_icon"></i>
-      <div class="nav_item_tip hidden">云文档</div>
+      <a href="/page"><i class="far fa-file-archive nav_item_icon"></i><div class="nav_item_tip hidden">云文档</div></a>
       
     </li>
     <li class="nav_icon_row">
-      <i class="fas fa-cubes nav_item_icon"></i>
-      <div class="nav_item_tip hidden">工作台</div>
+      <a href="/workbench"><i class="fas fa-cubes nav_item_icon"></i><div class="nav_item_tip hidden">工作台</div></a>
+      
       
     </li>
     <li class="nav_icon_row">
@@ -40,3 +38,4 @@
   </div>
  
 </aside>
+

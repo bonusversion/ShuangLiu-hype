@@ -1,60 +1,90 @@
 const express = require("express");
 const ejs = require("ejs");
+const { use } = require("express/lib/application");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
-const account1 = {
-  username: "zqr",
-  password: "123456",
+let sec = 0;
+
+const Account = function (user, username, password) {
+  this.user = user;
+  this.username = username;
+  this.password = password;
 };
 
-const account2 = {
-  username: "glq",
-  password: "654321",
-};
+const zqRu = new Account("曾倩茹", "zqr", "123456");
+const glQin = new Account("耿丽琴", "glq", "654321");
+const xXue = new Account("肖雪", "xx", "qwerty");
+const stTing = new Account("邵婷婷", "stt", "qazxsw");
+const pyChuan = new Account("蒲豫川", "puyuchuan", "qazxsw");
 
-const account3 = {
-  username: "xx",
-  password: "qwerty",
-};
-
-const account4 = {
-  username: "stt",
-  password: "qazxsw",
-};
-
-const accounts = [account1, account2, account3, account4];
+const accounts = [zqRu, glQin, xXue, stTing, pyChuan];
 
 app.get("/", function (req, res) {
+  let time = 0;
+
   res.render("login", {
     signAlert: "",
   });
-});
 
-app.post("/", function (req, res) {
-  const loginUser = req.body.username;
-  const loginPin = req.body.password;
+  app.post("/", function (req, res) {
+    const loginUser = req.body.username;
+    const loginPin = req.body.password;
 
-  currentUser = accounts.find((acc) => acc.username === loginUser);
-  console.log(currentUser);
-  if (currentUser && currentUser.password === loginPin) {
+    currentUser = accounts.find((acc) => acc.username === loginUser);
+    currentUserName = currentUser.user.slice(1);
+    console.log(currentUser);
+    if (currentUser && currentUser.password === loginPin) {
+      res.render("index", {
+        user: currentUserName,
+        time: 0,
+      });
+    } else {
+      res.render("login", {
+        signAlert: "提示:用户名或密码错误",
+      });
+    }
+  });
+
+  app.get("/index", function (req, res) {
     res.render("index");
-  } else {
-    res.render("login", {
-      signAlert: "提示:用户名或密码错误",
+  });
+
+  app.get("/demo", function (req, res) {
+    res.render("demo");
+  });
+
+  app.get("/affair", function (req, res) {
+    res.render("affair", {
+      user: currentUserName,
+      time: time,
     });
-  }
-});
+  });
 
-app.get("/index", function (req, res) {
-  res.render("index");
-});
+  app.get("/page", function (req, res) {
+    res.render("page", {
+      user: currentUserName,
+      time: time,
+    });
+  });
 
-app.get("/demo", function (req, res) {
-  res.render("demo");
+  app.get("/doc1", function (req, res) {
+    res.render("doc1");
+  });
+
+  app.get("/doc2", function (req, res) {
+    res.render("doc2");
+  });
+
+  app.get("/workbench", function (req, res) {
+    res.render("workbench", {
+      user: currentUserName,
+      time: time,
+    });
+  });
 });
 
 app.listen(3000, function () {

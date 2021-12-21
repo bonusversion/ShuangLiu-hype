@@ -1,0 +1,50 @@
+<%- include('header') -%>
+    <title>事件跟踪</title>
+    </head>
+
+    <body>
+        <%- include('sidebar') -%>
+            <h1 class="docs-title">事件跟踪</h1>
+            <hr class="title-line" />
+            <button class="add-affair">新增</button>
+            <div class="affair-info-sheet">
+                <table>
+                    <tr>
+                        <td>工作具体说明</td>
+                        <td><input class="affair-des-input" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>负责人</td>
+                        <td><input class="affair-ackPerson-input" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>剩余进度跟踪</td>
+                        <td><input class="affair-remainProgress-input" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>原因分析即跟踪</td>
+                        <td><input class="affair-measurement-input" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>当前进度</td>
+                        <td><input class="affair-currentProgress-input" type="text"></td>
+                    </tr>
+                    <button class="ack-add-affair">提交</button>
+                </table>
+            </div>
+            <table class="affair-table">
+                <tr>
+                    <th>日期</th>
+                    <th>工作具体说明</th>
+                    <th>负责人</th>
+                    <th>剩余进度说明</th>
+                    <th>原因分析即措施</th>
+                    <th>当前进度</th>
+                </tr>
+            </table>
+            <script src="js/script.js"></script>
+            <script src="js/affair.js"></script>
+            <!-- <script src="js/index.js"></script> -->
+    </body>
+
+    </html>

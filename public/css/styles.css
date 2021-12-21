@@ -1,49 +1,71 @@
 body {
-  margin: 0;
-  padding: 0;
-  background-color: white;
-  /* animation: example 3s linear infinite alternate; */
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    font-family: "Noto Serif SC", serif;
+    /* animation: example 3s linear infinite alternate; */
+    letter-spacing: 2px;
+}
+
+h1 {
+    margin: 0;
+    font-family: "Noto Serif SC";
+    font-weight: 600;
 }
 
 ul {
-  list-style-type: none;
+    margin: 0;
+    list-style-type: none;
 }
+
 li {
-  list-style-type: none;
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
 }
 
 @keyframes example {
-  0% {
-    background-color: rgb(246, 242, 212);
-  }
-
-  100% {
-    background-color: rgb(149, 209, 204);
-  }
+    0% {
+        background-color: rgb(246, 242, 212);
+    }
+    100% {
+        background-color: rgb(149, 209, 204);
+    }
 }
 
 div {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 input {
-  outline: none;
+    outline: none;
+}
+
+.icon {
+    color: rgba(0, 0, 0, 0.4);
 }
 
 .sign-sheet {
-  position: relative;
-  left: 50%;
-  width: 500px;
-  height: 350px;
-  margin: 100px auto;
+    position: relative;
+    left: 50%;
+    width: 500px;
+    height: 350px;
+    margin: 100px auto;
+    background: rgba(255, 255, 255, 0.6);
 }
 
 .sign_alert {
-  margin-top: 0px;
-  color: red;
-  font-size: 12px;
+    margin-top: 0px;
+    color: red;
+    font-size: 12px;
 }
 
 .hidden {
-  opacity: 0;
+    opacity: 0;
+}
+
+.hidden-table {
+    display: none;
 }
