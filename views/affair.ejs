@@ -6,16 +6,16 @@
         <%- include('sidebar') -%>
             <h1 class="docs-title">事件跟踪</h1>
             <hr class="title-line" />
-            <button class="add-affair">新增</button>
-            <div class="affair-info-sheet">
+            <button class="add-affair-btn"><i class="fas fa-plus"></i></button>
+            <div class="affair-info-sheet hidden-table">
                 <table>
                     <tr>
                         <td>工作具体说明</td>
-                        <td><input class="affair-des-input" type="text"></td>
+                        <td><textarea class="affair-des-input"></textarea></td>
                     </tr>
                     <tr>
                         <td>负责人</td>
-                        <td><input class="affair-ackPerson-input" type="text"></td>
+                        <td><input class="affair-ackPerson-input" type="text" /></td>
                     </tr>
                     <tr>
                         <td>剩余进度跟踪</td>
@@ -33,14 +33,22 @@
                 </table>
             </div>
             <table class="affair-table">
-                <tr>
+                <thead>
+                    <tr>
                     <th>日期</th>
                     <th>工作具体说明</th>
                     <th>负责人</th>
                     <th>剩余进度说明</th>
                     <th>原因分析即措施</th>
                     <th>当前进度</th>
+                    <th>操作</th>
                 </tr>
+                </thead>
+                <tbody class="affair-table-body">
+
+                </tbody>
+                
+                
             </table>
             <script src="js/script.js"></script>
             <script src="js/affair.js"></script>
