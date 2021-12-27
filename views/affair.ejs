@@ -6,7 +6,7 @@
         <%- include('sidebar') -%>
             <h1 class="docs-title">事件跟踪</h1>
             <hr class="title-line" />
-            <button class="add-affair-btn"><i class="fas fa-plus"></i></button>
+            <button class="add-affair-btn"><i class="fas fa-plus"></i>&nbsp;添加事件</button>
             <div class="affair-info-sheet hidden-table">
                 <table>
                     <tr>
@@ -19,36 +19,37 @@
                     </tr>
                     <tr>
                         <td>剩余进度跟踪</td>
-                        <td><input class="affair-remainProgress-input" type="text"></td>
+                        <td><textarea class="affair-remainProgress-input" type="text"></textarea></td>
                     </tr>
                     <tr>
                         <td>原因分析即跟踪</td>
-                        <td><input class="affair-measurement-input" type="text"></td>
+                        <td><textarea class="affair-measurement-input" type="text"></textarea></td>
                     </tr>
                     <tr>
                         <td>当前进度</td>
-                        <td><input class="affair-currentProgress-input" type="text"></td>
+                        <td><textarea class="affair-currentProgress-input" type="text"></textarea></td>
                     </tr>
                     <button class="ack-add-affair">提交</button>
+                    <button class="can-add-affair">取消</button>
                 </table>
             </div>
             <table class="affair-table">
                 <thead>
                     <tr>
-                    <th>日期</th>
-                    <th>工作具体说明</th>
-                    <th>负责人</th>
-                    <th>剩余进度说明</th>
-                    <th>原因分析即措施</th>
-                    <th>当前进度</th>
-                    <th>操作</th>
+                    <th width="10%">日期</th>
+                    <th width="20%">工作具体说明</th>
+                    <th width="8%">负责人</th>
+                    <th width="12%">剩余进度说明</th>
+                    <th width="20%">原因分析即措施</th>
+                    <th width="20%">当前进度</th>
+                    <th width="10%">操作</th>
                 </tr>
                 </thead>
                 <tbody class="affair-table-body">
 
                 </tbody>
                 
-                
+                <div class="overlay hidden"></div>
             </table>
             <script src="js/script.js"></script>
             <script src="js/affair.js"></script>

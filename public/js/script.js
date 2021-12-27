@@ -21,3 +21,22 @@ document.querySelectorAll(".nav_item_icon").forEach((navIconRow) => {
 //   }
 //   jsExecCmd();
 // });
+
+const renderTimeFro = function (sec) {
+  const hour = parseInt(sec / 60 / 60);
+  const min = parseInt((sec % (60 * 60)) / 60);
+  const second = sec % 60;
+  const expected = `${hour}小时${min}分${second}秒`;
+  return expected;
+};
+
+const recordLogTime = function () {
+  let sec = 0;
+  if (!document.querySelector(".curTime")) return;
+  setInterval(function () {
+    sec++;
+    document.querySelector(".curTime").textContent = `${renderTimeFro(sec)}`;
+  }, 1000);
+};
+
+recordLogTime();

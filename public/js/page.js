@@ -1,8 +1,10 @@
-const Docs = function (fileName, fileDate, fileType) {
-  this.fileName = fileName;
-  this.fileDate = fileDate;
-  this.fileType = fileType;
-};
+class Docs {
+  constructor(fileName, fileDate, fileType) {
+    this.fileName = fileName;
+    this.fileDate = fileDate;
+    this.fileType = fileType;
+  }
+}
 
 const doc1 = new Docs("“三个敬畏”主题学习活动", "2021-10-09 12:23", "DOC");
 const doc2 = new Docs("地面信息系统OMMS(H5)培训", "2021-12-12 15:45", "PPT");

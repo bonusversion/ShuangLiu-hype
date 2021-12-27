@@ -5,143 +5,178 @@ const affairTable = document.querySelector(".affair-table");
 const affairTableBody = document.querySelector(".affair-table-body");
 const addAffairBtn = document.querySelector(".add-affair-btn");
 const ackAddAffairBtn = document.querySelector(".ack-add-affair");
-const affairDesInput = document.querySelector(".affair-des-input");
-const affairAckPerson = document.querySelector(".affair-ackPerson-input");
-const affairRemainProgress = document.querySelector(
+const canAddAffairBtn = document.querySelector(".can-add-affair");
+const inputDescription = document.querySelector(".affair-des-input");
+const inputAckPerson = document.querySelector(".affair-ackPerson-input");
+const inputRemainProgress = document.querySelector(
   ".affair-remainProgress-input"
 );
-const affairMeasurement = document.querySelector(".affair-measurement-input");
-const affairCurrentProgress = document.querySelector(
+const inputMeasurement = document.querySelector(".affair-measurement-input");
+const inputCurProgress = document.querySelector(
   ".affair-currentProgress-input"
 );
+const affairInfoSheet = document.querySelector(".affair-info-sheet");
+const overlay = document.querySelector(".overlay");
 
 // System Variables
 let currentItemId = -1;
 
-const Affair = function (
-  id,
-  date,
-  description,
-  ackPerson,
-  remainProgress,
-  measurement,
-  curProgress
-) {
-  this.id = id;
-  this.date = date;
-  this.description = description;
-  this.ackPerson = ackPerson;
-  this.remainProgress = remainProgress;
-  this.measurement = measurement;
-  this.curProgress = curProgress;
-};
+class Affair {
+  id = (Date.now() + "").slice(-10);
 
-const affairItem1 = new Affair(
-  0,
-  "11/15",
-  "环境监控上DVIP的UPS报警",
-  "蒲豫川",
-  "电力部仍未修复该UPS故障",
-  "定期在环境监控上检查该UPS是否恢复",
-  "12.13已联系电力部，等待备注"
-);
-const allAffairItems = [affairItem1];
-
-let newAffairId = allAffairItems.length;
-// functions
-function createAffairItem(affair) {
-  const html = `<tr class="affair-row${affair.id}">
-  <td>${affair.date}</td>
-  <td>${affair.description}</td>
-  <td>${affair.ackPerson}</td>
-  <td>${affair.remainProgress}</td>
-  <td>${affair.measurement}</td>
-  <td>${affair.curProgress}</td>
-  <td><button class='edit-${affair.id} edit'><i class="far fa-edit"></i></button></td>
-  
-</tr>`;
-  return html;
-}
-
-function displayAllAffairs() {
-  affairTableBody.innerHTML = "";
-  allAffairItems.forEach((affair) => {
-    const html = createAffairItem(affair);
-    affairTableBody.insertAdjacentHTML("beforeend", html);
-  });
-}
-
-function addAffairItem(id) {
-  const today = new Date();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
-  const newAffair = new Affair(
-    id,
-    `${month}/${day}`,
-    affairDesInput.value,
-    affairAckPerson.value,
-    affairRemainProgress.value,
-    affairMeasurement.value,
-    affairCurrentProgress.value
-  );
-  allAffairItems.push(newAffair);
-  displayAllAffairs();
-}
-
-function clearAffairSheet() {
-  affairDesInput.value = "";
-  affairAckPerson.value = "";
-  affairRemainProgress.value = "";
-  affairMeasurement.value = "";
-  affairCurrentProgress.value = "";
-}
-
-// Init
-
-displayAllAffairs();
-
-// Event Handlers
-addAffairBtn.addEventListener("click", function (e) {
-  currentItemId = newAffairId;
-  document.querySelector(".affair-info-sheet").classList.remove("hidden-table");
-  newAffairId++;
-});
-
-ackAddAffairBtn.addEventListener("click", function () {
-  const idArr = allAffairItems.map((a) => a.id);
-  if (!idArr.includes(currentItemId)) addAffairItem(currentItemId);
-  else {
-    const curAffair = allAffairItems.find((a) => currentItemId === a.id);
-    curAffair.description = affairDesInput.value;
-    curAffair.ackPerson = affairAckPerson.value;
-    curAffair.remainProgress = affairRemainProgress.value;
-    curAffair.measurement = affairMeasurement.value;
-    curAffair.curProgress = affairCurrentProgress.value;
-    document.querySelector(
-      `.affair-row${currentItemId}`
-    ).innerHTML = ` <td>${curAffair.date}</td>
-    <td>${curAffair.description}</td>
-    <td>${curAffair.ackPerson}</td>
-    <td>${curAffair.remainProgress}</td>
-    <td>${curAffair.measurement}</td>
-    <td>${curAffair.curProgress}</td>
-    <td><button class='edit-${curAffair.id} edit'><i class="far fa-edit"></i></button></td>`;
+  constructor(
+    description,
+    ackPerson,
+    remainProgress,
+    measurement,
+    curProgress
+  ) {
+    this.description = description;
+    this.ackPerson = ackPerson;
+    this.remainProgress = remainProgress;
+    this.measurement = measurement;
+    this.curProgress = curProgress;
+    this.setDate();
   }
-  clearAffairSheet();
-  document.querySelector(".affair-info-sheet").classList.add("hidden-table");
-});
 
-affairTableBody.addEventListener("click", function (e) {
-  if (e.target.classList.contains("edit")) {
-    document
-      .querySelector(".affair-info-sheet")
-      .classList.remove("hidden-table");
-    currentItemId = Number(e.target.classList[0].slice(-1));
-    const curAffair = allAffairItems.find((a) => currentItemId === a.id);
-    affairDesInput.value = curAffair.description;
-    affairAckPerson.value = curAffair.ackPerson;
-    affairRemainProgress.value = curAffair.remainProgress;
-    affairMeasurement.value = curAffair.measurement;
-    affairCurrentProgress.value = curAffair.curProgress;
+  setDate() {
+    const now = new Date();
+    this.date = `${now.getMonth() + 1}月${now.getDate()}日`;
   }
-});
+}
+
+class App {
+  allAffairs = [];
+  curAffair;
+  constructor() {
+    this._getLocalStorage();
+    // Attach Event Handlers
+    addAffairBtn.addEventListener("click", this._addNewAffiar.bind(this));
+    ackAddAffairBtn.addEventListener("click", this._ackAffair.bind(this));
+    canAddAffairBtn.addEventListener("click", this._hideAffairSheet);
+    affairTableBody.addEventListener("click", this._opAffair.bind(this));
+  }
+
+  _showAffairSheet() {
+    affairInfoSheet.classList.remove("hidden-table");
+    overlay.classList.remove("hidden");
+  }
+
+  _hideAffairSheet() {
+    // Empty inputs
+    inputDescription.value = "";
+    inputAckPerson.value = "";
+    inputRemainProgress.value = "";
+    inputMeasurement.value = "";
+    inputCurProgress.value = "";
+
+    overlay.classList.add("hidden");
+    affairInfoSheet.classList.add("hidden-table");
+  }
+
+  _addNewAffiar() {
+    this.curAffair = null;
+    this._showAffairSheet();
+  }
+
+  _ackAffair() {
+    if (!this.curAffair) {
+      let affair;
+
+      // Get date from Table
+      const description = inputDescription.value;
+      const ackPerson = inputAckPerson.value;
+      const remainProgress = inputRemainProgress.value;
+      const measurement = inputMeasurement.value;
+      const curProgress = inputCurProgress.value;
+
+      // Create Affair object
+      affair = new Affair(
+        description,
+        ackPerson,
+        remainProgress,
+        measurement,
+        curProgress
+      );
+
+      // Add new affair to allAffairs
+      this.allAffairs.push(affair);
+
+      // Render affair on table
+      this._renderAffir(affair);
+
+      // Set data to localStorage
+      localStorage.setItem("allAffairs", JSON.stringify(this.allAffairs));
+    }
+
+    if (this.curAffair) {
+      this.curAffair.description = inputDescription.value;
+      this.curAffair.ackPerson = inputAckPerson.value;
+      this.curAffair.remainProgress = inputRemainProgress.value;
+      this.curAffair.measurement = inputMeasurement.value;
+      this.curAffair.curProgress = inputCurProgress.value;
+
+      affairTableBody.innerHTML = "";
+      this.allAffairs.forEach((affair) => this._renderAffir(affair));
+    }
+
+    // Hide affair sheet and empty inputs
+    this._hideAffairSheet();
+  }
+
+  _renderAffir(affair) {
+    const html = `<tr data-id="${affair.id}"><td>${affair.date}</td>
+    <td>${affair.description}</td>
+    <td>${affair.ackPerson}</td>
+    <td>${affair.remainProgress}</td>
+    <td>${affair.measurement}</td>
+    <td>${affair.curProgress}</td>
+    <td><button class="edit btn" data-id="${affair.id}"><i class="far fa-edit"></i></button><button class="del btn" data-id="${affair.id}"><i class="far fa-trash-alt"></i></button></td></tr>`;
+
+    affairTableBody.insertAdjacentHTML("afterbegin", html);
+  }
+
+  _opAffair(e) {
+    const opBtn = e.target.closest(".btn");
+    if (!opBtn) return;
+    const curAffairId = opBtn.dataset.id;
+    if (opBtn.classList.contains("edit")) {
+      this._showAffairSheet();
+      this.curAffair = this.allAffairs.find(
+        (affair) => affair.id === curAffairId
+      );
+      inputDescription.value = this.curAffair.description;
+      inputAckPerson.value = this.curAffair.ackPerson;
+      inputRemainProgress.value = this.curAffair.remainProgress;
+      inputMeasurement.value = this.curAffair.measurement;
+      inputCurProgress.value = this.curAffair.curProgress;
+    }
+    if (opBtn.classList.contains("del")) {
+      const affairInex = this.allAffairs.findIndex(
+        (affair) => affair.id === curAffairId
+      );
+      this.allAffairs.splice(affairInex, 1);
+      affairTableBody.innerHTML = "";
+      this.allAffairs.forEach((affair) => this._renderAffir(affair));
+      // Set data to localStorage
+      localStorage.setItem("allAffairs", JSON.stringify(this.allAffairs));
+    }
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem("allAffairs"));
+    if (!data) return;
+    this.allAffairs = data;
+    this.allAffairs.forEach((affair) => {
+      this._renderAffir(affair);
+      affair.__proto__ = Object.create(Affair.prototype);
+    });
+  }
+
+  reset() {
+    localStorage.removeItem("allAffairs");
+    location.reload();
+  }
+}
+
+const app = new App();
